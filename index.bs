@@ -1,0 +1,31 @@
+<pre class='metadata'>
+Title: Collector
+Shortname: collector
+Level: 1
+Status: LS
+URL: https://mellonscholarlycommunication.github.io/spec-eventlog
+Editor: Miel Vander Sande, meemoo - [Flemish Institute for Archiving](https://meemoo.be), miel.vandersande@meemoo.be
+Editor: Patrick Hochstenbach, Ghent University, patrick.hochstenbach@ugent.be
+Editor: Ruben Dedecker, Ghent University, ruben.dedecker@ugent.be
+Editor: Jeroen Werbrouck, Ghent University, Jeroen.Werbrouck@ugent.be
+Abstract: This document specifies the requirements for implementing and hosting an Artefact Lifecycle Event Log.
+Markup Shorthands: markdown yes
+</pre>
+
+Set of documents {#set}
+=======================
+
+This document is one of the specifications produced by the **ResearcherPod** and **ErfgoedPod** project:
+
+1. [Overview](/spec-overview/)
+2. [Orchestrator](/spec-orchestrator/)
+3. [Data Pod](/spec-datapod/)
+4. [Rule language](/spec-rulelanguage/)
+5. [Artefact Lifecycle Event Log](/spec-eventlog/) (this document)
+
+Introduction {#intro}
+=====================
+
+Introduction here.
+
+Test build: d929bb9
