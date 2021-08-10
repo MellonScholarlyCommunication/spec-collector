@@ -51,7 +51,7 @@ Collector interface {#initialization}
 =================================================
 A Collector instance requires a target URI and a set of lifecycle event data sources and associated trust scores to be passed on initialization.
 Using these parameters, the collector automatically starts the lifecycle event collection process.
-This provisioning MUST be possible using a PUT or POST to a dedicated [HTTP11] resource if the orchestrator is deployed as a web service; see § 10 Deploying an orchestrator. 
+This provisioning MUST be possible using a PUT or POST to a dedicated [HTTP1.1] resource if the orchestrator is deployed as a web service; see § 10 Deploying an orchestrator. 
 
 
 
@@ -113,7 +113,7 @@ This discovery step requires the implementation of the following functionality:
 Deploying a collector {#deploying}
 =================================================
 A Collector MUST be deployable as a [=local background process=] or as a [=remote web service=].
-In case of the latter, an actor SHOULD be able to spawn, initialize and trigger the instance over [[!HTTP11]].
+In case of the latter, an actor SHOULD be able to spawn, initialize and trigger the instance over [!HTTP1.1].
 
 <pre class="example">
 POST /test HTTP/1.1
