@@ -26,8 +26,10 @@ This document is one of the specifications produced by the **ResearcherPod** and
 Introduction {#intro}
 =====================
 <img alt="…" src="mellon_collector_flow.png" style="width: 100%">
-The Collector is an [=Autonomous Agent=] that traverses the scholarly network to gather artefact event information, both for lifecycle events and interaction events.
-This collection happens by crawling the network based on the URI of a given artefact, and tries to retrieve as much information as possible regarding the artifact’s status, taking into account the actor's preferences of trusted sources. 
+The Collector is an [=Autonomous Agent=] that traverses the scholarly network to gather event information on specific artefacts.
+It has the task of gathering all useful information it can, and ranking it according to the preferences set by the actor running the collector instance.
+The main usecase of this component will be in addition to existing third party indexes for scholarly artefacts such as Google Scholar and Arxiv.
+The component collects information from the Web by crawling the network, taking into account the actor's preferences of trusted sources. 
 The Collector’s discovery process requires the materialization of three capabilities: selection, ranking, and verification of retrieved artifact event information.
 
 
@@ -49,40 +51,59 @@ This document uses the following defined terms from [[spec-overview#definitions]
 
 Collector interface {#initialization}
 =================================================
-A Collector instance requires a target URI and a set of lifecycle event data sources and associated trust scores to be passed on initialization.
-Using these parameters, the collector automatically starts the lifecycle event collection process.
-This provisioning MUST be possible using a PUT or POST to a dedicated [HTTP1.1] resource if the orchestrator is deployed as a web service; see § 10 Deploying an orchestrator. 
+A Collector component MUST be deployable as a [=local background process=] or as a [=remote web service=].
+A Collector component MUST provide an interface on initialization through which the initializing actor can set the starting parameters for the component.
+This interface MUST include the possibility to set one or more target artefact URI's, for which the component must crawl the network to discover Event information.
+Additionally, the interface MUST support setting an initial set of data sources the component may crawl, mapped to a set of trust scores for each data source indicating the actor's trust in a certain data source.
+On intialization, the collector automatically starts the collection process.
+This provisioning MUST be possible using a PUT or POST to a dedicated [HTTP1.1] resource if the orchestrator is deployed as a [=remote web service=]. 
 
 
 
 The Collection Process {#collecting}
 =================================================
-The Collector component gathers [=Artefact=] [=Lifecycle Event=] information in the decentralized scholarly communication network.
-Based on the parameters passed on initialization, the component crawls the network for [Lifecycle Event=] information for a given artefact, or in case no artefact URI is passed, the component crawls the network for all available artefacts conform to the given filters at initialization.
-
+The Collector component gathers [=Artefact=] event information in the decentralized scholarly communication network.
+It's main target is the collection of bot [=Lifecycle Event=] and [=Interaction Event=] information on the target artefacts in the network.
+Based on the parameters passed on initialization, the component crawls the network for this information.
+The component can be initialized with no target artefacts, in which case it SHOULD crawl the network, and return all information for all discovered artefacts to the initializing actor.
 
 ## Selecting ## {#selecting}
-The decentralized nature of the scholarly communication system has as a consequence that the scholarly record is distributed over the [=Researcher Pod=]'s on the network.
-As it is often impossible to recreate a the full lifecycle of an artefact in a decentralied network, the collector has to decide on the sources it wants to crawl to retrieve the most relevant subset of the lifecycle trail of the target artefact. For this, it has to do source selection on the passed data sources, and on any discovered additional data sources while crawling the network.
-This process makes use of [=smart filters=] to determine and select the most relevant and significant events as determined by the actor's preferences that initialized the collector instance.
-
-The selection process is executed according to the following steps in case an artefact URI is given:
-- Create a queue of all data sources and the passed target URI (When Given)
-- Pop the highest ranked URI from the queue
-- retrieve all Event information (relevant to the target URI)
-- Add all found data sources to the queue
-- repeat
+The first step in the selection process is selecting the data sources which the collector instance will crawl.
+Initially, the available sources include the URI of the artefact for which information is sought, as well as the set of available data sources and their trust score assigned by the actor.
+During the crawling process, the collector will come accross new links that may lead to new data sources.
+These data sources MUST be added to the sources index with a trust score based on the user preferences or derived from the data source it was discovered in.
+The actor initializing the Collector component SHOULD be able to set the logic for the assigning of these trust scores on initialization.
+The algorithm deciding in which order the data sources are crawled MUST be based on both the trust score of the data sources and the type of data expected to be found in the data source.
+Any subsequent of concurrent collection tasks with other target URIs SHOULD make use of the updated sources list created through other collection tasks to speed up discovery.
+An example algorithm for the selection process is given in [](#selection-algorithm).
 
 ## Ranking ## {#ranking}
-Lifecycle events are discovered and ranked in order of the trustworthiness of their sources, as passed by the actor as paramters to the collector instance.
-This information MUST be used to rank found [=Events=] and [=data sources=].
-In case no value is given for the trustworthyness of a specific data source, a value can be derived from the trustworthyness of the previous data source in the chain combined with potential scoring by that data source of the currently retrieved data source.
-This scoring mechanism MUST be configurable by the actor initializing the collector instance.
-The result allows the ordering of data sources for confidence, and results in a list of lifecycle events ordered by time and confidence.
+On crawling the data sources, [=Event=] information may be discovered on the target artefact.
+These discovered Events MUST display and may be ordered according to their resulting trust factor, in combination with the other defined filters by the actor.
+The trust factor given to an Event MUST initially be deduced from the trust factor of the data source on which it was discovered.
+An example ranking algorithm is given in [](#ranking-algorithm).
+On verification of the Event in the [verification](#verifying) step, this trust score MAY be adapted based on the trust in the service that created the event and with which it was verified.
+
 
 ## Verifying ## {#verifying}
-During or after their retrieval, the Collector should also verify the authenticity of event information, irrespective of their origin, to exclude and flag lifecycle events that were willingly or unwillingly corrupted. 
-We define corruption as any truncation or alteration to an artifact or its metadata. 
+After the retrieval of an Event, the collector MAY choose to try to verify the authenticity of the discovered event information.
+This functionality MUST be available either automatically or through an interface where the actor can specify specific Events to verify for the collector.
+Event information can be validated according to the algorithm described in [](#validation-algorithm).
+Data corruption of any kind should be warned to the user.
+We define corruption as any truncation or alteration to an artifact or its metadata.
+In the case of versioned data, the verification step MUST take into account the vesions of the resources, and verify for the specific versions of the resources that are defined in the dat. 
+
+
+The proposed algorithms {#discoalgorithmsvery}
+=================================================
+
+## The selection algorithm ## {#selection-algorithm}
+
+
+## The ranking algorithm ## {#ranking-algorithm}
+
+## The validation algorithm ## {#validation-algorithm}
+
 
 Multiple methods of verification can be used:
 - A first approach to verification of events is redundancy. By cross-referencing any found events with the events stored by the actor generating the event, the collector can assume that if a matching event can be discovered, the event can be presumed as not falisified.
@@ -95,19 +116,6 @@ Multiple methods of verification can be used:
   In case of an event not mentioned in the event log of an actor, the collector has no way of discovering this.
 </pre>
 
-
-Discovering the data source Event Log {#discovery}
-=================================================
-A Collector instance crawling the network for [=Artefact=] [=Lifecycle Event=] information, must be able to discover any [=Event Log=] defined by a discovered data source.
-For this, any collector implementation must make use the Event Log Discovery step as defined in the [Event Log Specification](https://mellonscholarlycommunication.github.io/spec-eventlog/#discovery).
-
-
-
-A source validation interface {#discovery}
-=================================================
-A Collector instance crawling the network for [=Artefact=] [=Lifecycle Event=] information, must be able to discover any [=Event Log=] defined by a discovered data source.
-This discovery step requires the implementation of the following functionality:
-- 
 
 
 Deploying a collector {#deploying}
@@ -140,6 +148,15 @@ If deployed as a local background process, an (custom) API MUST be present that 
 
 
 
+Updating collector targets {#updating}
+=================================================
+
+
+
+Notes {#notes}
+=================================================
+
+## Deleted Events ## {#deleted-events}
 
 
 
