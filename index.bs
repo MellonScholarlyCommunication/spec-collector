@@ -98,12 +98,42 @@ The proposed algorithms {#discoalgorithmsvery}
 =================================================
 
 ## The selection algorithm ## {#selection-algorithm}
+The Collector selection algorithm has the task of discovering and crawling the available data sources for artefact Event information on the network.
+The algorithm MUST 
+
+### Implementation ### {#selection-algorithm-implemetation}
+1. Dereference the artefact, discovering any defined [=Event Log=] instances according to the [Event Log spec](https://mellonscholarlycommunication.github.io/spec-eventlog/#discovery).
+2. List all found [=Event=] instances.
+3. Discover the data sources of all event instances, and add all data sources to the list of data sources. The trust factor of these sources MAY be adapter from the trust factor of the current data source.
+4. Repeat untill a cutoff treshold value is reached:
+a. Pick highest trust score data source from priorityqueue (score may be adapted using additional filters)
+b. Dereference the data source and add the event information to the listing
+c. Add all discovered data sources to the priorityqueue.
+
+The discovery of data sources in an Event Log happens by taking the origin of all listed Events.
 
 
 ## The ranking algorithm ## {#ranking-algorithm}
+The Collector ranking algorithm has the task of ranking the discovered Events connected to the queried artefact.
+This ranking is adaptable, as entity ranking may change on verification of the discovered event or on adaptation of the data sources trust scores used by the algorithm.
+The used algorithm (parameters) must be adaptable through the collector interface.
+
 
 ## The validation algorithm ## {#validation-algorithm}
+The used validation method will depend on the available data.
 
+### Implementation ### {#validation-algorithm-implemetation}
+1. Discover the origin of an Event
+2. If the Event has a digital signature, verify the signature with the origin
+- If the signature verifies, confirm the verification of the event.
+- If the signature does not verify, flag Event as tampered with.
+- If the origin is not available, mark as unresolved. These events can be verified by discovering matching events in archived versions
+3. Index the Event. If any identical event is come accross, mark as validated.
+
+
+Any Event MUST have a defined origin.
+To validate an Event, the first step MUST be to dereference the Event origin.
+The validation algorithm MUST include 
 
 Multiple methods of verification can be used:
 - A first approach to verification of events is redundancy. By cross-referencing any found events with the events stored by the actor generating the event, the collector can assume that if a matching event can be discovered, the event can be presumed as not falisified.
