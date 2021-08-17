@@ -1222,8 +1222,8 @@ Possible extra rowspan handling
 	}
 </style>
   <meta content="Bikeshed version 5f7b0e20, updated Tue Aug 18 15:46:28 2020 -0700" name="generator">
-  <link href="https://mellonscholarlycommunication.github.io/spec-eventlog" rel="canonical">
-  <meta content="1f3fdecfe8a80d7582e3fb5083db2d2c7814eeda" name="document-revision">
+  <link href="https://mellonscholarlycommunication.github.io/spec-collector" rel="canonical">
+  <meta content="f1388f6d58a3b8a4faba42906d28f0ca49332ea0" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1412,11 +1412,11 @@ dfn > a.self-link::before      { content: "#"; }</style>
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Collector</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-08-16">16 August 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-08-17">17 August 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
-     <dd><a class="u-url" href="https://mellonscholarlycommunication.github.io/spec-eventlog">https://mellonscholarlycommunication.github.io/spec-eventlog</a>
+     <dd><a class="u-url" href="https://mellonscholarlycommunication.github.io/spec-collector">https://mellonscholarlycommunication.github.io/spec-collector</a>
      <dt>Issue Tracking:
      <dd><a href="https://github.com/MellonScholarlyCommunication/spec-collector/issues/">GitHub</a>
      <dt class="editor">Editors:
@@ -1429,7 +1429,7 @@ dfn > a.self-link::before      { content: "#"; }</style>
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 16 August 2021,
+In addition, as of 17 August 2021,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1455,7 +1455,7 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#verifying"><span class="secno">5.3</span> <span class="content">Verifying</span></a>
      </ol>
     <li>
-     <a href="#discoalgorithmsvery"><span class="secno">6</span> <span class="content">The proposed algorithms</span></a>
+     <a href="#discovery"><span class="secno">6</span> <span class="content">The proposed algorithms</span></a>
      <ol class="toc">
       <li>
        <a href="#selection-algorithm"><span class="secno">6.1</span> <span class="content">The selection algorithm</span></a>
@@ -1476,6 +1476,7 @@ Parts of this work may be from another specification document.  If so, those par
      <ol class="toc">
       <li><a href="#deleted-events"><span class="secno">9.1</span> <span class="content">Deleted Events</span></a>
      </ol>
+    <li><a href="#roadmap"><span class="secno">10</span> <span class="content">Spec roadmap</span></a>
     <li>
      <a href="#implementation-details"><span class="secno"></span> <span class="content">Appendix A: Implementation details</span></a>
      <ol class="toc">
@@ -1578,7 +1579,7 @@ Event information can be validated according to the algorithm described in <a hr
 Data corruption of any kind should be warned to the user.
 We define corruption as any truncation or alteration to an artifact or its metadata.
 In the case of versioned data, the verification step MUST take into account the vesions of the resources, and verify for the specific versions of the resources that are defined in the dat. 
-   <h2 class="heading settled" data-level="6" id="discoalgorithmsvery"><span class="secno">6. </span><span class="content">The proposed algorithms</span><a class="self-link" href="#discoalgorithmsvery"></a></h2>
+   <h2 class="heading settled" data-level="6" id="discovery"><span class="secno">6. </span><span class="content">The proposed algorithms</span><a class="self-link" href="#discovery"></a></h2>
    <h3 class="heading settled" data-level="6.1" id="selection-algorithm"><span class="secno">6.1. </span><span class="content">The selection algorithm</span><a class="self-link" href="#selection-algorithm"></a></h3>
     The Collector selection algorithm has the task of discovering and crawling the available data sources for artefact Event information on the network.
 The algorithm MUST 
@@ -1634,7 +1635,7 @@ The validation algorithm MUST include</p>
    </ul>
 <pre class="note">Note: 
 These mechanisms provide solutions for verifying the origin and contents of an event found in an event log.
-In case of an event not mentioned in the event log of an actor, the collector has no way of discovering this.
+In case of an event not mentioned in the event log of an actor, the collec:+1: tor has no way of discovering this.
 </pre>
    <h2 class="heading settled" data-level="7" id="deploying"><span class="secno">7. </span><span class="content">Deploying a collector</span><a class="self-link" href="#deploying"></a></h2>
     A Collector MUST be deployable as a <a data-link-type="dfn">local background process</a> or as a <a data-link-type="dfn">remote web service</a>.
@@ -1662,6 +1663,29 @@ Accept: application/json
    <h2 class="heading settled" data-level="8" id="updating"><span class="secno">8. </span><span class="content">Updating collector targets</span><a class="self-link" href="#updating"></a></h2>
    <h2 class="heading settled" data-level="9" id="notes"><span class="secno">9. </span><span class="content">Notes</span><a class="self-link" href="#notes"></a></h2>
    <h3 class="heading settled" data-level="9.1" id="deleted-events"><span class="secno">9.1. </span><span class="content">Deleted Events</span><a class="self-link" href="#deleted-events"></a></h3>
+   <h2 class="heading settled" data-level="10" id="roadmap"><span class="secno">10. </span><span class="content">Spec roadmap</span><a class="self-link" href="#roadmap"></a></h2>
+   <ol>
+    <li data-md>
+     <p>Consolidate discovery and verification algorithms</p>
+    <li data-md>
+     <p>Specify interfaces for component</p>
+     <ul>
+      <li data-md>
+       <p>creation interface</p>
+      <li data-md>
+       <p>running interface</p>
+       <ul>
+        <li data-md>
+         <p>retieve current results + ranking</p>
+        <li data-md>
+         <p>update targets ? - new process?</p>
+       </ul>
+     </ul>
+    <li data-md>
+     <p>Create flow graphs for the different use cases.</p>
+    <li data-md>
+     <p>Specify implementation details.</p>
+   </ol>
    <h2 class="heading settled" id="implementation-details"><span class="content">Appendix A: Implementation details</span><a class="self-link" href="#implementation-details"></a></h2>
    <h3 class="heading settled" id="retrieving-inbox-notifications"><span class="content">Retrieving inbox notifications</span><a class="self-link" href="#retrieving-inbox-notifications"></a></h3>
    <h3 class="heading settled" id="observing-ldp-resource-state-updates"><span class="content">Observing LDP resource state updates</span><a class="self-link" href="#observing-ldp-resource-state-updates"></a></h3>

@@ -3,7 +3,7 @@ Title: Collector
 Shortname: collector
 Level: 1
 Status: LS
-URL: https://mellonscholarlycommunication.github.io/spec-eventlog
+URL: https://mellonscholarlycommunication.github.io/spec-collector
 Editor: Miel Vander Sande, meemoo - [Flemish Institute for Archiving](https://meemoo.be), miel.vandersande@meemoo.be
 Editor: Patrick Hochstenbach, Ghent University, patrick.hochstenbach@ugent.be
 Editor: Ruben Dedecker, Ghent University, ruben.dedecker@ugent.be
@@ -94,7 +94,7 @@ We define corruption as any truncation or alteration to an artifact or its metad
 In the case of versioned data, the verification step MUST take into account the vesions of the resources, and verify for the specific versions of the resources that are defined in the dat. 
 
 
-The proposed algorithms {#discoalgorithmsvery}
+The proposed algorithms {#discovery}
 =================================================
 
 ## The selection algorithm ## {#selection-algorithm}
@@ -143,7 +143,7 @@ Multiple methods of verification can be used:
 <pre class="note">
   Note: 
   These mechanisms provide solutions for verifying the origin and contents of an event found in an event log.
-  In case of an event not mentioned in the event log of an actor, the collector has no way of discovering this.
+  In case of an event not mentioned in the event log of an actor, the collec:+1: tor has no way of discovering this.
 </pre>
 
 
@@ -190,6 +190,20 @@ Notes {#notes}
 
 
 
+Spec roadmap {#roadmap}
+====================================
+1. Consolidate discovery and verification algorithms
+
+2. Specify interfaces for component
+	- creation interface
+	- running interface	
+		- retieve current results + ranking
+		- update targets ? - new process?
+
+3. Create flow graphs for the different use cases.
+
+4. Specify implementation details.
+
 
 
 Appendix A: Implementation details {#implementation-details}
@@ -200,6 +214,9 @@ Appendix A: Implementation details {#implementation-details}
 ## Observing LDP resource state updates
 
 ## Time based trigger implementations
+
+
+
 
 
 <pre class=biblio>
